@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>养老AI健康管理系统 · 数字化项目方案（给南京护理服务公司）</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--hi:#dc2626;--mid:#d97706;--lo:#6b7280;--brand:#0f766e;--brand2:#14b8a6;--blue:#2563eb;--purple:#7c3aed}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;line-height:1.65;font-size:16px}
+a{color:var(--blue);word-break:break-all}
+.wrap{max-width:1120px;margin:0 auto;padding:16px}
+header.hero{background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;border-radius:18px;padding:22px 20px;margin-bottom:18px}
+.hero .meta{font-size:13px;opacity:.9;margin-bottom:6px}
+.hero h1{margin:0 0 6px;font-size:25px;line-height:1.35}
+.hero .sub{opacity:.95;font-size:14.5px}
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.vbox{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:14px;padding:14px}
+.vbox .k{font-size:13px;opacity:.9}
+.vbox .v{font-size:18px;font-weight:700;margin:4px 0}
+.vbox .c{font-size:14px}
+.chip{display:inline-block;background:#fff;color:#0f766e;border-radius:999px;padding:2px 10px;margin:3px 4px 0 0;font-size:13px;font-weight:600}
+nav.toc{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.06);font-size:14px}
+nav.toc b{margin-right:6px}
+nav.toc a{display:inline-block;margin:3px 10px 3px 0;color:#0f766e;text-decoration:none;font-weight:600;word-break:keep-all}
+section{background:var(--card);border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+h2{font-size:20px;margin:0 0 4px}
+h2 .n{display:inline-block;background:var(--brand);color:#fff;border-radius:8px;padding:0 9px;margin-right:8px;font-size:16px}
+.desc{color:var(--muted);font-size:14px;margin:0 0 14px}
+.guess{display:inline-block;background:#fef3c7;color:#92400e;border-radius:5px;padding:0 6px;font-size:12px;font-weight:600;margin-right:4px;white-space:nowrap}
+.fact{display:inline-block;background:#dcfce7;color:#166534;border-radius:5px;padding:0 6px;font-size:12px;font-weight:600;margin-right:4px;white-space:nowrap}
+.unk{display:inline-block;background:#f3f4f6;color:#4b5563;border-radius:5px;padding:0 6px;font-size:12px;font-weight:600;margin-right:4px;white-space:nowrap}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chartbox{border:1px solid var(--line);border-radius:12px;padding:12px}
+.chartbox h3{font-size:16px;margin:0 0 8px}
+svg text{font-family:inherit}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:12px;background:#f8fafc}
+.stat .num{font-size:24px;font-weight:800;color:var(--brand);line-height:1.2}
+.stat .lab{font-size:13.5px}
+.stat .src{font-size:12px;color:var(--muted);margin-top:4px}
+.bars .row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:14px}
+.bars .lab{width:9em;flex-shrink:0}
+.bars .track{flex:1;background:#f1f5f9;border-radius:6px;height:24px;position:relative}
+.bars .fill{height:24px;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;color:#fff;font-size:12px;font-weight:700;min-width:44px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;padding:14px;position:relative;background:#fff}
+.card.a{border-left:5px solid var(--brand)}.card.b{border-left:5px solid var(--purple)}.card.s{border-left:5px solid var(--mid)}
+.card h3{margin:0 0 6px;font-size:17px}
+.card p{margin:4px 0;font-size:14.5px}
+.card ul{margin:6px 0 0;padding-left:20px;font-size:14.5px}
+.card .save{background:#ecfdf5;border:1px dashed #16a34a;border-radius:8px;padding:8px;margin-top:8px;font-size:13.5px}
+.pain{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.pbox{border-radius:12px;padding:12px;background:#fff7ed;border:1px solid #fed7aa;font-size:14.5px}
+.pbox h3{margin:0 0 4px;font-size:16px;color:#c2410c}
+.pbox .now{color:#7c2d12}
+.pbox .fix{margin-top:6px;color:#065f46;font-weight:600}
+.modhead{display:flex;align-items:center;gap:10px;margin:14px 0 10px;flex-wrap:wrap}
+.modhead .big{font-size:16px;font-weight:800;padding:4px 14px;border-radius:999px;color:#fff}
+.bg-a{background:var(--brand)}.bg-b{background:var(--purple)}.bg-s{background:var(--mid)}
+.co{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.co.first{border-top:5px solid var(--hi);background:#fffafa}
+.co.chronic{border-top:4px solid var(--purple)}
+.co h3{margin:0;font-size:17px}
+.co .meta{color:var(--muted);font-size:13px;margin-bottom:6px}
+.co table{width:100%;border-collapse:collapse;font-size:14px}
+.co td{padding:6px 0;vertical-align:top;border-top:1px solid #f1f5f9}
+.co td:first-child{width:5.6em;color:#374151;font-weight:700;white-space:nowrap;padding-right:6px}
+.badge{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;font-weight:700;color:#fff;background:var(--hi);vertical-align:middle;margin-left:6px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.step{border:1px solid var(--line);border-radius:12px;padding:12px;font-size:14px;background:#fff}
+.step h3{margin:0 0 4px;font-size:16px}
+.step .when{display:inline-block;background:var(--brand);color:#fff;border-radius:6px;padding:0 8px;font-size:12px;font-weight:700;margin-bottom:4px}
+.step ul{margin:4px 0 0;padding-left:18px}
+.tablewrap{overflow-x:auto}
+table.price{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+table.price th,table.price td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+table.price th{background:#f0fdfa;color:#134e4a}
+table.price td.p{font-weight:800;color:var(--brand);white-space:nowrap}
+.callout{margin-top:16px;background:#fff7ed;border:2px solid #f97316;border-radius:14px;padding:16px;font-size:14.5px}
+.callout h3{margin:0 0 6px;color:#c2410c}
+.green{background:#ecfdf5;border-color:#16a34a}
+.green h3{color:#166534}
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;align-items:center}
+.flow span{background:#fff;border:1px solid #fdba74;border-radius:8px;padding:4px 10px;font-weight:700;font-size:14px}
+.flow i{font-style:normal;color:#f97316;font-weight:800}
+.coop{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cbox{border-radius:14px;padding:14px;font-size:14.5px}
+.cbox h3{margin:0 0 6px;font-size:17px}
+.cbox ul{margin:0;padding-left:20px}
+.c-us{background:#eef2ff;border:1px solid #c7d2fe}
+.c-them{background:#ecfdf5;border:1px solid #86efac}
+table.risk{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+table.risk th,table.risk td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+table.risk th{background:#fef2f2;color:#991b1b}
+.q{counter-reset:q;list-style:none;padding:0;margin:0}
+.q li{counter-increment:q;position:relative;padding:12px 12px 12px 52px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;font-size:15px}
+.q li::before{content:counter(q);position:absolute;left:12px;top:11px;width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.contact{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.contact div{border:1px dashed #94a3b8;border-radius:12px;padding:12px;font-size:14.5px;background:#f8fafc}
+.modlist{display:none}
+.ml{border-radius:12px;padding:10px;margin-bottom:8px;font-size:14px}
+.ml b{display:block;margin-bottom:4px}
+.ml span{display:inline-block;background:#fff;border-radius:8px;padding:2px 8px;margin:2px 4px 2px 0;border:1px solid var(--line)}
+.ml.b{background:#f5f3ff;border:1px solid #7c3aed}.ml.a{background:#f0fdfa;border:1px solid #0f766e}.ml.s{background:#fffbeb;border:1px solid #d97706}
+.note{font-size:12.5px;color:var(--muted);margin-top:8px}
+footer{font-size:12.5px;color:var(--muted);text-align:center;padding:10px 10px 30px}
+@media (max-width:820px){
+ .charts,.coop{grid-template-columns:1fr}
+ .verdict{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr 1fr}
+ .steps{grid-template-columns:1fr 1fr}
+ .contact{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+ body{font-size:15.5px}
+ .wrap{padding:10px}
+ .hero h1{font-size:21px}
+ section{padding:14px;border-radius:14px}
+ .grid,.pain{grid-template-columns:1fr}
+ .steps{grid-template-columns:1fr}
+ .bars .lab{width:7.2em;font-size:13px}
+ .stat .num{font-size:21px}
+ .modsvg{display:none}
+ .modlist{display:block}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="meta">数字化项目方案 · 作者：n1ck（金可立）· 养老AI健康管理系统 · 2026-10-30</div>
+  <h1>让护理员的每一次服务都有记录、可查、能结算</h1>
+  <div class="sub">写给南京本地中小型护理服务公司、人力资源（护理员派遣）公司老板的一份方案。一句话：<b>我们出系统，您出护理员和客户关系</b>。先免费试点，用真实数据说话，满意再付费。</div>
+  <div class="verdict">
+    <div class="vbox">
+      <div class="k">切入点一（优先谈）</div>
+      <div class="v">医院陪护监管 + 质控报告</div>
+      <div class="c">适合 <span class="chip">南京若幸健康护理</span><br>解决：医院招标要求的下单、派单、监管系统，纸质质控问卷。</div>
+    </div>
+    <div class="vbox">
+      <div class="k">切入点二（现有产品直接用）</div>
+      <div class="v">慢病随访（血压血糖）</div>
+      <div class="c">适合 <span class="chip">南京康傅理护理</span><span class="chip">江苏中皓养老</span><span class="chip">南京尚满天</span><span class="chip">雨花恒宇</span><br>解决：长护险要求血压每月至少测4次，记录难、汇总累。</div>
+    </div>
+    <div class="vbox">
+      <div class="k">怎么开始</div>
+      <div class="v">试点期免费</div>
+      <div class="c">先在雨花台1到2家有驻点医生的养老院试点，覆盖50到100位慢病老人，约3个月出真实数据和案例。</div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc"><b>目录</b>
+  <a href="#bg">1 项目背景</a><a href="#pain">2 痛点</a><a href="#mod">3 功能模块</a><a href="#client">4 客户方案</a><a href="#plan">5 实施步骤</a><a href="#price">6 报价建议</a><a href="#effect">7 预期效果</a><a href="#coop">8 合作模式</a><a href="#risk">9 风险与应对</a><a href="#next">10 下一步</a>
+</nav>
+
+<!-- 1 背景 -->
+<section id="bg">
+  <h2><span class="n">1</span>项目背景：为什么现在要做数字化</h2>
+  <p class="desc">标 <span class="fact">已核实</span> 的为公开资料或前期核实的事实；标 <span class="unk">未查到</span> 的为没找到公开信息。</p>
+  <div class="stats">
+    <div class="stat"><div class="num">310 家</div><div class="lab">南京养老护理机构</div><div class="src">共 44197 张床位，其中雨花台区 21 家。来源：南京统计年鉴2025</div></div>
+    <div class="stat"><div class="num">70 元/天</div><div class="lab">南京长护险 机构护理</div><div class="src">居家上门 50 元/小时。<span class="fact">已核实</span></div></div>
+    <div class="stat"><div class="num">每月≥4次</div><div class="lab">长护险要求的血压监测</div><div class="src">来源：<a href="https://ybj.nanjing.gov.cn/gkml/202403/t20240301_4177629.html">南京医保局长护险服务项目</a></div></div>
+    <div class="stat"><div class="num">250 万/年</div><div class="lab">市中心医院医养中心 护理服务最高限价</div><div class="src">3年预算750万，至少25名持证护理员。<a href="http://www.ccgp.gov.cn/cggg/dfgg/gkzb/202610/t20261028_27579292.htm">中国政府采购网</a></div></div>
+  </div>
+  <div class="charts">
+    <div class="chartbox">
+      <h3>为什么是现在：三个变化</h3>
+      <ul style="margin:0;padding-left:20px;font-size:14.5px">
+        <li><b>医院招标开始写明要系统。</b>南京市第一医院陪护项目（预算810万，费率15%）的招标要求供应商具备线上下单、派单、支付、开票、评价和监管系统。没有系统，下一次投标就吃亏。<a href="https://www.yiliaozhaobiao.com/news-1bb9b2cc61653fdc851d925444517e98/">招标要求来源</a></li>
+        <li><b>长护险检查看记录。</b>血压每月至少测4次，记不全、对不上，结算和检查都麻烦。</li>
+        <li><b>新的标正在放出来。</b>南京市中心医院医养中心护理服务招标，2026-11-23 09:30（北京时间）截止。投标保证金公告未写明，按规定上限为预算的2%，以招标文件为准。</li>
+      </ul>
+    </div>
+    <div class="chartbox">
+      <h3>现有平台“有人注册，少人在用”：宁享养老平台</h3>
+      <svg viewBox="0 0 420 230" width="100%" role="img" aria-label="宁享养老平台注册用户与月活对比">
+        <line x1="60" y1="190" x2="400" y2="190" stroke="#cbd5e1"/>
+        <rect x="100" y="30" width="90" height="160" rx="6" fill="#94a3b8"/>
+        <text x="145" y="22" font-size="14" text-anchor="middle" font-weight="700" fill="#334155">约 12000</text>
+        <text x="145" y="210" font-size="13" text-anchor="middle" fill="#374151">注册用户</text>
+        <rect x="260" y="176.7" width="90" height="13.3" rx="4" fill="#0f766e"/>
+        <text x="305" y="168" font-size="14" text-anchor="middle" font-weight="700" fill="#0f766e">约 1000</text>
+        <text x="305" y="210" font-size="13" text-anchor="middle" fill="#374151">月活跃用户</text>
+        <text x="225" y="100" font-size="13" text-anchor="middle" fill="#6b7280">月活约为注册的 1/12</text>
+      </svg>
+      <p class="note">说明南京的问题不是“没有平台”，而是数据孤岛、资金少、设备易坏，导致系统用不起来。所以我们的思路是：<b>护理员手机能用、设备坏了也能手工补录、先免费试点</b>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 痛点 -->
+<section id="pain">
+  <h2><span class="n">2</span>痛点：护理公司老板每天头疼的事</h2>
+  <p class="desc">“现在”一栏为根据公开信息和行业常见情况的 <span class="guess">推测</span>，未向具体公司核实；试点时会逐家确认。</p>
+  <div class="pain">
+    <div class="pbox"><h3>排班打卡</h3><div class="now">现在：护理员分散在多家医院、多个家庭，靠电话和微信群排班，到没到岗、几点走，老板看不到。</div><div class="fix">系统：手机排班 + 定位签到签退，后台一眼看在岗情况。</div></div>
+    <div class="pbox"><h3>服务记录</h3><div class="now">现在：纸笔记录或拍照发群，月底一张张翻，容易丢、容易漏。</div><div class="fix">系统：每次服务手机勾选 + 拍照，自动存档，可按人按月查。</div></div>
+    <div class="pbox"><h3>质控</h3><div class="now">现在：质控靠纸质问卷（据澎湃报道若幸目前使用纸质满意度问卷），统计慢，发现问题晚。<a href="https://www.thepaper.cn/newsDetail_forward_32778403">来源</a></div><div class="fix">系统：家属扫码评价 + AI 自动汇总，每月出质控报告给医院或街道。</div></div>
+    <div class="pbox"><h3>长护险结算数据</h3><div class="now">现在：血压要求每月至少4次，记录分散，结算和抽查前要人工整理。官方监管平台已存在，我们不替代它。</div><div class="fix">系统：自动统计每人每月测量次数，不达标提前提醒，导出结算附件材料。</div></div>
+    <div class="pbox"><h3>家属沟通与纠纷</h3><div class="now">现在：家属看不到连续记录，出了事说不清，容易起纠纷。</div><div class="fix">系统：家属端随时看服务记录和血压血糖，异常自动推送。</div></div>
+    <div class="pbox"><h3>投标拿不出系统</h3><div class="now">现在：医院招标要求线上下单、派单、监管系统，自己开发成本高。</div><div class="fix">系统：直接用我们的陪护监管系统，投标时可作为系统能力说明（以合作协议为准）。</div></div>
+  </div>
+</section>
+
+<!-- 3 模块 -->
+<section id="mod">
+  <h2><span class="n">3</span>产品功能模块</h2>
+  <p class="desc">两条业务线共用一套底座：排班打卡和家属端两边都能用。系统只做记录、提醒和分层，医疗判断交给医生。</p>
+  <div class="modsvg"><svg viewBox="0 0 900 200" width="100%" role="img" aria-label="系统模块结构图">
+    <rect x="10" y="10" width="420" height="110" rx="14" fill="#f5f3ff" stroke="#7c3aed"/>
+    <text x="220" y="36" font-size="17" text-anchor="middle" font-weight="800" fill="#5b21b6">慢病随访</text>
+    <rect x="25" y="52" width="125" height="52" rx="10" fill="#fff" stroke="#c4b5fd"/><text x="87" y="83" font-size="13.5" text-anchor="middle">血压血糖设备接入</text>
+    <rect x="158" y="52" width="125" height="52" rx="10" fill="#fff" stroke="#c4b5fd"/><text x="220" y="83" font-size="13.5" text-anchor="middle">随访计划</text>
+    <rect x="291" y="52" width="125" height="52" rx="10" fill="#fff" stroke="#c4b5fd"/><text x="353" y="83" font-size="13.5" text-anchor="middle">异常预警</text>
+    <rect x="470" y="10" width="420" height="110" rx="14" fill="#f0fdfa" stroke="#0f766e"/>
+    <text x="680" y="36" font-size="17" text-anchor="middle" font-weight="800" fill="#115e59">医院陪护监管</text>
+    <rect x="480" y="52" width="96" height="52" rx="10" fill="#fff" stroke="#5eead4"/><text x="528" y="83" font-size="13" text-anchor="middle">定位/签到</text>
+    <rect x="583" y="52" width="96" height="52" rx="10" fill="#fff" stroke="#5eead4"/><text x="631" y="83" font-size="13" text-anchor="middle">服务记录</text>
+    <rect x="686" y="52" width="96" height="52" rx="10" fill="#fff" stroke="#5eead4"/><text x="734" y="83" font-size="13" text-anchor="middle">AI质控报告</text>
+    <rect x="789" y="52" width="94" height="52" rx="10" fill="#fff" stroke="#5eead4"/><text x="836" y="83" font-size="13" text-anchor="middle">异常工单</text>
+    <rect x="10" y="135" width="880" height="55" rx="14" fill="#fffbeb" stroke="#d97706"/>
+    <text x="450" y="160" font-size="16" text-anchor="middle" font-weight="800" fill="#92400e">共用底座：排班打卡 · 家属端 · 数据存放在国内 · 老人或家属单独同意</text>
+    <text x="450" y="180" font-size="12.5" text-anchor="middle" fill="#92400e">护理员用手机，老板用电脑后台，家属用手机查看</text>
+  </svg></div>
+  <div class="modlist">
+    <div class="ml b"><b>慢病随访</b><span>血压血糖设备接入</span><span>随访计划</span><span>异常预警</span></div>
+    <div class="ml a"><b>医院陪护监管</b><span>定位/签到</span><span>服务记录</span><span>AI质控报告</span><span>异常工单</span></div>
+    <div class="ml s"><b>共用底座</b><span>排班打卡</span><span>家属端</span><span>数据存放在国内</span><span>老人或家属单独同意</span></div>
+  </div>
+
+  <div class="modhead"><span class="big bg-b">慢病随访</span><span style="font-size:14px;color:var(--muted)">适合上门护理、社区站、养老院</span></div>
+  <div class="grid">
+    <div class="card b"><h3>血压血糖手环/设备数据接入</h3><p>能接的设备自动上传；设备坏了或不支持，护理员手机手工录入，数据不断档。</p><div class="save">省什么：不用纸笔抄、不用月底再录一遍。</div></div>
+    <div class="card b"><h3>随访计划</h3><p>每位老人一张计划表，比如每周测1次血压，系统按时提醒护理员，漏测会标红。</p><div class="save">省什么：自动对齐长护险“每月至少4次”的要求，少挨检查扣分。</div></div>
+    <div class="card b"><h3>异常预警</h3><p>红黄绿三档：绿色正常，黄色提醒复测，红色立即通知驻点医生和家属。</p><div class="save">省什么：问题早发现，减少老人突发情况带来的纠纷和责任。</div></div>
+  </div>
+
+  <div class="modhead"><span class="big bg-a">医院陪护监管</span><span style="font-size:14px;color:var(--muted)">适合医院陪护、免陪照护公司</span></div>
+  <div class="grid">
+    <div class="card a"><h3>实时定位/签到</h3><p>护理员到病区手机签到签退，后台看谁在岗、在哪个病区。</p><div class="save">省什么：不用主管挨个病房查岗。</div></div>
+    <div class="card a"><h3>服务记录</h3><p>翻身、喂饭、清洁等按项目勾选，可拍照留证，按时间自动存档。</p><div class="save">省什么：家属或医院质疑时，拿得出记录。</div></div>
+    <div class="card a"><h3>AI质控报告</h3><p>家属扫码评价 + 服务记录，AI 自动汇总成月度/季度质控报告，可直接交给院方。</p><div class="save">省什么：不再手工统计纸质问卷。</div></div>
+    <div class="card a"><h3>异常工单</h3><p>家属投诉、护理员缺岗、病人指标异常，自动生成工单，指定人处理，处理完才能关闭。</p><div class="save">省什么：小问题当天处理，不拖成大纠纷。</div></div>
+  </div>
+
+  <div class="modhead"><span class="big bg-s">共用模块</span></div>
+  <div class="grid">
+    <div class="card s"><h3>排班打卡</h3><p>手机排班、换班申请、到岗打卡、交接班记录，月底自动出考勤表。</p><div class="save">省什么：考勤和工资核对时间。</div></div>
+    <div class="card s"><h3>家属端</h3><p>家属手机查看服务记录、血压血糖趋势，异常自动推送，可在线评价。</p><div class="save">省什么：家属电话少了，满意度和续单率有了依据。</div></div>
+  </div>
+</section>
+
+<!-- 4 客户方案 -->
+<section id="client">
+  <h2><span class="n">4</span>针对两类客户的方案</h2>
+  <p class="desc">以下仅基于公开信息整理，<b>未联系任何公司</b>。“缺什么”为 <span class="guess">推测</span>；所有公司电话 <span class="unk">未查到</span>。</p>
+
+  <div class="modhead"><span class="big bg-a">第一类：医院陪护公司</span></div>
+  <div class="co first">
+    <h3>南京若幸健康护理 <span class="badge">优先谈</span></h3>
+    <div class="meta">秦淮区 · 为16家二甲以上医院提供陪护（公司人员受访时所说，<a href="https://www.thepaper.cn/newsDetail_forward_32778403">澎湃新闻</a>）</div>
+    <table>
+      <tr><td>做什么</td><td>医院陪护、免陪照护。中标南京市第一医院陪护项目（预算810万，费率15%，<a href="https://www.yiliaozhaobiao.com/news-f16238f418ee97fec537f851ab14ef64/">来源</a>）；中标江宁医院项目（376.8万，<a href="http://www.nyzbtbw.com.cpeee.com/g-nengyuan-9976166904--78066465.html">来源</a>）；是南京市第二医院汤山院区的拟合作供应商（<a href="https://www.guangsuzb.com/succeed_v_2041310605622562818.html">来源</a>）。</td></tr>
+      <tr><td>缺什么</td><td><span class="unk">未查到</span>若幸有自建系统。<span class="guess">推测</span>需要满足市一院招标要求的线上下单、派单、支付、开票、评价和监管系统；质控目前用纸质问卷。</td></tr>
+      <tr><td>我们补什么</td><td>陪护监管全套（定位签到、服务记录、AI质控报告、异常工单）+ 排班打卡 + 家属端；病人血压血糖可顺带接入三档预警。</td></tr>
+      <tr><td>对它的价值</td><td>守住已中的标、过院方监管检查；下一次投标（如市中心医院医养中心项目）时有现成系统可展示。</td></tr>
+      <tr><td>建议开场</td><td>“市一院招标里要求的下单、派单、监管系统，我们可以先免费帮您在一个病区试点，质控报告每月自动出。”</td></tr>
+    </table>
+  </div>
+
+  <div class="modhead"><span class="big bg-b">第二类：居家/社区/长护险护理公司</span></div>
+  <div class="grid">
+    <div class="co chronic">
+      <h3>南京康傅理护理</h3>
+      <div class="meta">长护险上门护理 · 所在区：秦淮或玄武（未最终确认）</div>
+      <table>
+        <tr><td>做什么</td><td>长护险上门护理，招聘页显示21到100人规模。<a href="https://www.kq36.com/job/2740306">来源</a></td></tr>
+        <tr><td>缺什么</td><td>公司自述有健康风险评估系统，未核实。<span class="guess">推测</span>缺每月4次血压监测的规范记录和月报。</td></tr>
+        <tr><td>我们补什么</td><td>慢病随访 + 家属端 + 长护险补充记录（不替代官方平台）。</td></tr>
+      </table>
+    </div>
+    <div class="co chronic">
+      <h3>江苏中皓养老</h3>
+      <div class="meta">玄武区</div>
+      <table>
+        <tr><td>做什么</td><td>自述做长护险和能力评估；鼓楼区适老化项目入围。<a href="http://www.njgl.gov.cn/glqrmzf/202504/t20250416_5129473.html">来源</a></td></tr>
+        <tr><td>缺什么</td><td><span class="guess">推测</span>长护险服务中的健康监测记录。系统情况 <span class="unk">未查到</span>。</td></tr>
+        <tr><td>我们补什么</td><td>慢病随访 + 长护险补充记录 + 月度随访报告。</td></tr>
+      </table>
+    </div>
+    <div class="co chronic">
+      <h3>南京尚满天</h3>
+      <div class="meta">雨花台区古雄</div>
+      <table>
+        <tr><td>做什么</td><td>运营新林、近华、天后等社区养老站；2026年古雄喘息服务项目28.75万。<a href="http://www.njyh.gov.cn/yhtqrmzf/202507/t20250708_5602415.html">来源</a></td></tr>
+        <tr><td>缺什么</td><td><span class="guess">推测</span>站点老人健康档案、给街道的汇总报表。</td></tr>
+        <tr><td>我们补什么</td><td>慢病随访（站点集中测量）+ 质控/汇总报表 + 家属端。</td></tr>
+      </table>
+    </div>
+    <div class="co chronic">
+      <h3>雨花恒宇居家养老服务中心</h3>
+      <div class="meta">雨花台区安德门 · 民办非企业</div>
+      <table>
+        <tr><td>做什么</td><td>2025年雨花台区残疾人居家照护标段二，45万。<a href="https://njgc.jfh.com/purchase/detail?id=27023&amp;type=9">来源</a></td></tr>
+        <tr><td>缺什么</td><td><span class="guess">推测</span>上门服务记录、健康数据、项目验收材料。</td></tr>
+        <tr><td>我们补什么</td><td>慢病随访 + 上门服务记录 + 自动出验收用报表 + 家属端。</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 5 实施 -->
+<section id="plan">
+  <h2><span class="n">5</span>实施步骤：先免费试点，再推广</h2>
+  <p class="desc">时间为 <span class="guess">示意</span> 计划，实际以双方确认为准。试点意向机构：雨花台区有驻点医生的养老院，如南山园、银松（<b>目前为意向目标，并未签约</b>），覆盖50到100位慢病老人。</p>
+  <div class="chartbox" style="overflow-x:auto">
+    <h3>时间线（示意）</h3>
+    <svg viewBox="0 0 860 250" width="100%" style="min-width:600px" role="img" aria-label="实施时间线甘特图">
+      <g font-size="13" fill="#374151" text-anchor="middle">
+        <text x="230" y="22">第1月</text><text x="350" y="22">第2月</text><text x="470" y="22">第3月</text><text x="590" y="22">第4月</text><text x="740" y="22">第5月起</text>
+      </g>
+      <g stroke="#e5e7eb"><line x1="170" y1="30" x2="170" y2="230"/><line x1="290" y1="30" x2="290" y2="230"/><line x1="410" y1="30" x2="410" y2="230"/><line x1="530" y1="30" x2="530" y2="230"/><line x1="650" y1="30" x2="650" y2="230"/><line x1="850" y1="30" x2="850" y2="230"/></g>
+      <g font-size="14" fill="#1f2937" font-weight="700">
+        <text x="10" y="63">① 准备</text><text x="10" y="113">② 试点运行</text><text x="10" y="163">③ 复盘</text><text x="10" y="213">④ 推广/投标</text>
+      </g>
+      <rect x="172" y="44" width="116" height="30" rx="8" fill="#14b8a6"/><text x="230" y="64" font-size="12.5" fill="#fff" text-anchor="middle">签约建档培训</text>
+      <rect x="292" y="94" width="236" height="30" rx="8" fill="#0f766e"/><text x="410" y="114" font-size="12.5" fill="#fff" text-anchor="middle">50到100位老人 / 1个病区 真实使用</text>
+      <rect x="532" y="144" width="116" height="30" rx="8" fill="#d97706"/><text x="590" y="164" font-size="12.5" fill="#fff" text-anchor="middle">数据对比、出案例</text>
+      <rect x="652" y="194" width="196" height="30" rx="8" fill="#7c3aed"/><text x="750" y="214" font-size="12.5" fill="#fff" text-anchor="middle">按床/按人收费，扩到更多机构</text>
+    </svg>
+  </div>
+  <div class="steps">
+    <div class="step"><span class="when">第1月</span><h3>准备</h3><ul><li>确定试点机构和老人名单</li><li>老人或家属签署数据使用同意书</li><li>护理员手机装好，培训半天</li><li>记录“试点前”基线数据</li></ul></div>
+    <div class="step"><span class="when">第2到3月</span><h3>试点</h3><ul><li>每天正常使用</li><li>我们每周回访一次，收集问题</li><li>设备坏了当场换或改手工录入</li></ul></div>
+    <div class="step"><span class="when">第4月</span><h3>复盘</h3><ul><li>对比试点前后：记录达标率、汇总耗时、投诉数</li><li>共同写一份试点报告</li><li>决定是否续用、如何收费</li></ul></div>
+    <div class="step"><span class="when">第5月起</span><h3>推广</h3><ul><li>开始按床/按人收费</li><li>扩到合作方的其他站点、医院</li><li>带着真实案例去投公开招标</li></ul></div>
+  </div>
+</section>
+
+<!-- 6 报价 -->
+<section id="price">
+  <h2><span class="n">6</span>报价建议</h2>
+  <p class="desc">下表全部为 <span class="guess">建议价</span>，用于开会讨论，不是正式报价；试点结束后根据真实使用量再定。</p>
+  <div class="tablewrap">
+  <table class="price">
+    <tr><th>项目</th><th>计费方式</th><th>参考区间（建议价）</th><th>包含内容</th></tr>
+    <tr><td>试点期（约3个月）</td><td>免费</td><td class="p">0 元</td><td>系统使用、培训、每周回访、试点报告。设备由合作方或老人自备（如需采购另议）。</td></tr>
+    <tr><td>慢病随访</td><td>按床或按人，每月</td><td class="p">30 到 60 元/人/月</td><td>设备接入或手工录入、随访计划、三档预警、家属端、月度随访报告。</td></tr>
+    <tr><td>陪护监管（方式一）</td><td>按护工，每月</td><td class="p">50 到 100 元/护工/月</td><td>排班打卡、定位签到、服务记录、异常工单、家属端、月度AI质控报告。</td></tr>
+    <tr><td>陪护监管（方式二）</td><td>按医院项目，每年</td><td class="p">3 万到 8 万元/项目/年</td><td>同上，适合一个医院整体打包；投标时可作为系统服务成本写入报价。</td></tr>
+  </table>
+  </div>
+  <div class="charts" style="margin-top:16px">
+    <div class="chartbox">
+      <h3>系统费占长护险机构护理收入的比例（示意计算）</h3>
+      <div class="bars">
+        <div class="row"><div class="lab">长护险机构护理（70元/天×30天）</div><div class="track"><div class="fill" style="width:100%;background:#94a3b8">2100 元/月</div></div></div>
+        <div class="row"><div class="lab">慢病随访 建议价上限</div><div class="track"><div class="fill" style="width:2.9%;background:#7c3aed"></div><span style="position:absolute;left:52px;top:2px;font-size:12.5px;font-weight:700;color:#5b21b6">60 元/月，约 2.9%</span></div></div>
+        <div class="row"><div class="lab">慢病随访 建议价下限</div><div class="track"><div class="fill" style="width:1.4%;background:#7c3aed"></div><span style="position:absolute;left:52px;top:2px;font-size:12.5px;font-weight:700;color:#5b21b6">30 元/月，约 1.4%</span></div></div>
+      </div>
+      <p class="note">70元/天为南京长护险机构护理标准（已核实）；30天为示意。系统费是否由长护险覆盖 <span class="unk">未查到</span>，按合作方自付考虑。</p>
+    </div>
+    <div class="chartbox">
+      <h3>南京市场实际怎么计价（参考）</h3>
+      <ul style="margin:0;padding-left:20px;font-size:14.5px">
+        <li>南京护理服务外包多数按 <b>每位老人每天</b> 或 <b>每名护理员每月</b> 计价，例如祖堂山福利院全护理区最高 <b>68元/老人/天</b>。</li>
+        <li>医院陪护按项目总价和费率计，例如市一院项目预算810万、费率15%。</li>
+        <li><b>江苏范围内未查到“按床收系统费”的先例</b>，所以我们的按床/按人月费是新的计价方式，试点后再和合作方一起定。</li>
+        <li>市中心医院医养中心护理服务最高限价250万/年（3年750万），可作为投标规模参考。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7 效果 -->
+<section id="effect">
+  <h2><span class="n">7</span>预期效果</h2>
+  <p class="desc">以下数字全部是 <span class="guess">预估目标</span>，不是已实现的结果。试点前的基线数据 <span class="unk">未查到</span>，将在试点第1月实测，第4月复盘时用真实数据替换。</p>
+  <div class="charts">
+    <div class="chartbox">
+      <h3>试点要达到的目标（预估目标）</h3>
+      <div class="bars">
+        <div class="row"><div class="lab">血压记录达标率（每月≥4次）</div><div class="track"><div class="fill" style="width:95%;background:#7c3aed">≥95%</div></div></div>
+        <div class="row"><div class="lab">月底结算/报表准备时间缩短</div><div class="track"><div class="fill" style="width:70%;background:#0f766e">缩短70%</div></div></div>
+        <div class="row"><div class="lab">家属投诉/纠纷减少</div><div class="track"><div class="fill" style="width:30%;background:#d97706">减少30%</div></div></div>
+        <div class="row"><div class="lab">质控报告电子化比例</div><div class="track"><div class="fill" style="width:100%;background:#2563eb">100%</div></div></div>
+        <div class="row"><div class="lab">红色异常通知医生</div><div class="track"><div class="fill" style="width:80%;background:#dc2626">30分钟内</div></div></div>
+      </div>
+      <p class="note">条形长度为示意，用于直观比较，不代表统一单位。</p>
+    </div>
+    <div class="chartbox">
+      <h3>能省多少时间（示意计算）</h3>
+      <svg viewBox="0 0 420 220" width="100%" role="img" aria-label="手工汇总与系统自动汇总耗时示意">
+        <line x1="40" y1="180" x2="400" y2="180" stroke="#cbd5e1"/>
+        <rect x="90" y="40" width="90" height="140" rx="6" fill="#94a3b8"/>
+        <text x="135" y="32" font-size="14" text-anchor="middle" font-weight="700" fill="#334155">约 6.7 小时/月</text>
+        <text x="135" y="200" font-size="13" text-anchor="middle">手工抄录汇总</text>
+        <rect x="250" y="138" width="90" height="42" rx="6" fill="#0f766e"/>
+        <text x="295" y="130" font-size="14" text-anchor="middle" font-weight="700" fill="#0f766e">约 2 小时/月</text>
+        <text x="295" y="200" font-size="13" text-anchor="middle">系统自动汇总+核对</text>
+      </svg>
+      <p class="note">示意假设：100位老人 × 每月4次血压 = 400条记录，手工抄录汇总每条约1分钟，约6.7小时；用系统后只需核对，按缩短70%的预估目标计约2小时。实际以试点实测为准。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 合作 -->
+<section id="coop">
+  <h2><span class="n">8</span>合作模式：各干各擅长的</h2>
+  <p class="desc">不抢合作方的生意，护理员派遣费全部归合作方，我们只收系统费。</p>
+  <div class="coop">
+    <div class="cbox c-us"><h3>我们出（养老AI健康管理系统）</h3><ul><li>系统：慢病随访、陪护监管、排班打卡、家属端</li><li>培训护理员、每周回访、系统维护</li><li>月度随访报告、质控报告</li><li>投标时提供系统能力说明材料</li></ul></div>
+    <div class="cbox c-them"><h3>合作方出（护理/人资公司）</h3><ul><li>护理员队伍</li><li>养老院、医院、街道等客户关系</li><li>日常服务和现场管理</li><li>试点期的使用反馈</li></ul></div>
+  </div>
+  <div class="callout green">
+    <h3>钱怎么分</h3>
+    <div class="flow"><span>养老院/医院/家属</span><i>→</i><span>合作方：护理员派遣费（全部归合作方）</span></div>
+    <div class="flow"><span>合作方或机构</span><i>→</i><span>我们：系统费（按床/按人/按护工，建议价见第6节）</span></div>
+    <p style="margin:6px 0 0">每进一家养老院或医院，派遣和系统一起进去：合作方多一个“有系统”的卖点，我们多一家用户。</p>
+  </div>
+</section>
+
+<!-- 9 风险 -->
+<section id="risk">
+  <h2><span class="n">9</span>风险与应对</h2>
+  <div class="tablewrap">
+  <table class="risk">
+    <tr><th>风险</th><th>应对</th></tr>
+    <tr><td>护理员不愿用，嫌麻烦</td><td>界面只留必要按钮，培训半天；先在1个站点/1个病区试点；记录少点几下就够。</td></tr>
+    <tr><td>设备易坏、老人不会用</td><td>设备坏了可手工录入，不断档；优先用护理员手中的测量设备，老人不需要自己操作。</td></tr>
+    <tr><td>数据孤岛，和官方平台不通</td><td>不替代长护险官方监管平台，只做补充记录；支持导出表格，方便配合结算和检查。是否能与官方平台直接对接 <span class="unk">未查到</span>，需另行申请授权。</td></tr>
+    <tr><td>老人隐私和数据安全</td><td>老人或家属单独签署同意书；数据存放在国内；合作方只看自己客户的数据。</td></tr>
+    <tr><td>预警误报或漏报引起责任争议</td><td>系统只做记录、提醒和分层，判断交给医生；在合同中写清责任边界。</td></tr>
+    <tr><td>资金少，不愿先付费</td><td>试点期免费，用真实数据证明效果后再收费；按月计费，可随时停。</td></tr>
+    <tr><td>竞争对手已有平台</td><td>先找系统弱或未公开系统的公司；以低价、本地服务、快速改功能取胜。</td></tr>
+  </table>
+  </div>
+</section>
+
+<!-- 10 下一步 -->
+<section id="next">
+  <h2><span class="n">10</span>下一步与联系方式</h2>
+  <ol class="q">
+    <li><b>约一次30分钟面谈</b>（优先若幸）：现场演示系统，了解贵司现在怎么排班、怎么记录、怎么做质控。</li>
+    <li><b>选定试点范围</b>：1个病区，或50到100位慢病老人（如雨花台区有驻点医生的养老院）。</li>
+    <li><b>签试点意向书</b>：写明免费期、数据归属、双方分工。</li>
+    <li><b>第4月复盘</b>：用真实数据决定是否推广；如效果好，可一起准备公开招标（如南京市中心医院医养中心护理服务项目，2026-11-23 09:30 北京时间截止，时间较紧，需尽快评估是否参加）。</li>
+  </ol>
+  <div class="contact">
+    <div><b>联系人</b><br>n1ck（金可立）<br>养老AI健康管理系统</div>
+    <div><b>电话</b><br>【待填写】</div>
+    <div><b>微信 / 邮箱</b><br>【待填写】</div>
+  </div>
+</section>
+
+<footer>
+  数据截至 2026-10-30，只基于公开信息和前期核实资料，未联系任何公司。<br>
+  标“建议价”“示意”“预估目标”的内容均为估算，不是承诺；标“推测”的内容为根据公开信息的判断；标“未查到”的内容为没有找到公开信息。<br>
+  作者：n1ck（金可立）· 养老AI健康管理系统
+</footer>
+
+</div>
+</body>
+</html>
